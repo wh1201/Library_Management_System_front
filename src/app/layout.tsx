@@ -1,6 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import React from "react";
+import QueryProvider from "@/providers/QueryProvider";
+import { Toaster } from "@/components/ui/sonner"
 
 export const metadata: Metadata = {
   title: "图书管理系统",
@@ -14,7 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <QueryProvider>
+          {children}
+          <Toaster position="top-center" />
+        </QueryProvider>
+      </body>
     </html>
   );
 }
