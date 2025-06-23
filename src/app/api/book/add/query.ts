@@ -6,11 +6,16 @@ export const addBookQueryOptions = {
         const res = await fetch('/api/book/add', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(addBookRequest),
+          body: JSON.stringify({
+            ...addBookRequest,
+            status: Number(addBookRequest.status)
+          }),
         });
         if (!res.ok) {
           const msg = await res.text();
-          throw new Error(msg);
+          console.error('API Error Status:', res.status);
+          console.error('API Error Message:', msg);
+          throw new Error(`API Error (${res.status}): ${msg}`);
         }
         return res.json() as Promise<AddBookResponse>;
       }

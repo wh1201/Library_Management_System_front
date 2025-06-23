@@ -22,10 +22,12 @@ const data = {
     {
       title: "首页",
       url: "/dashboard",
+      active: false,
     },
     {
       title: "图书列表",
       url: "/dashboard/booksManagement/list",
+      active: false,
     },
   ],
 }
