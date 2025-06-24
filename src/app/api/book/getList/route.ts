@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import { GetBookListRequestSchema, GetBookListResponseSchema, GetBookListRequest } from "./type";
+import { GetBookListRequestSchema, GetBookListResponseSchema, GetBookListRequest } from "@/types/book";
 
 /**
  * 获取书籍列表查询

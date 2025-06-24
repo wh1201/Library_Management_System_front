@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server"
-import { DeleteBookRequestSchema, DeleteBookResponseSchema, DeleteBookRequest } from "./type"
+import { DeleteBookRequestSchema, DeleteBookResponseSchema, DeleteBookRequest } from "@/types/book"
 
 
 

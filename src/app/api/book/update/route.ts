@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import { UpdateBookRequestSchema, UpdateBookResponseSchema, UpdateBookRequest } from "./type";
+import { UpdateBookRequestSchema, UpdateBookResponseSchema, UpdateBookRequest } from "@/types/book";
 
 /**
  * 更新书籍查询

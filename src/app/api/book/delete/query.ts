@@ -1,4 +1,4 @@
-import { DeleteBookRequest, DeleteBookResponse } from "./type"
+import { DeleteBookRequest, DeleteBookResponse } from "@/types/book"
 
 /**
  * React Query配置选项

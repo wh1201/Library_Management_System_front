@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
     Card,
@@ -10,33 +10,29 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from "sonner"
-import { createClient } from "@/utils/supabase/client"
-import { z } from "zod"
 import { useRouter } from "next/navigation"
-import {RegisterRequestSchema, RegisterRequest} from "@/app/api/user/register/type"
+import { RegisterRequestSchema, RegisterRequest } from "@/types/user"
 import { useMutation } from "@tanstack/react-query"
 import { registerQueryOptions } from "@/app/api/user/register/query"
 import { supabaseConfig } from "@/config/supabase"
-import { useAuth } from "@/hooks/useAuth"
 
 
 export default function RegisterPage() {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
-    const { user, loading, isAuthenticated, redirectToDashboard } = useAuth()
 
-    // 如果用户已经登录，重定向到仪表板
-    useEffect(() => {
-        if (!loading && isAuthenticated) {
-            redirectToDashboard()
-        }
-    }, [loading, isAuthenticated, redirectToDashboard])
-
-    const formData = useForm<RegisterRequest>({
+    const form = useForm<RegisterRequest>({
         resolver: zodResolver(RegisterRequestSchema),
         defaultValues: {
             email: "",
@@ -44,7 +40,7 @@ export default function RegisterPage() {
             confirmPassword: "",
         },
     });
-    
+
     const register = useMutation({
         ...registerQueryOptions,
         onSuccess: (data) => {
@@ -69,24 +65,10 @@ export default function RegisterPage() {
         }
     })
 
-    const onRegisterHandle = async (data: RegisterRequest) => {
+    const onSubmit = async (data: RegisterRequest) => {
         console.log("提交用户注册信息:", data);
         setIsLoading(true)
         register.mutate(data)
-    }
-
-    // 显示加载状态
-    if (loading) {
-        return (
-            <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900"></div>
-            </div>
-        )
-    }
-
-    // 如果用户已登录，不显示注册表单（useEffect会处理重定向）
-    if (isAuthenticated) {
-        return null
     }
 
     return (
@@ -106,70 +88,78 @@ export default function RegisterPage() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <form onSubmit={formData.handleSubmit(onRegisterHandle)}>
-                            <div className="flex flex-col gap-6">
-                                <div className="grid gap-3">
-                                    <Label htmlFor="email">邮箱</Label>
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        placeholder="请输入您的邮箱"
-                                        {...formData.register("email")}
-                                        required
-                                    />
-                                    {formData.formState.errors.email && (
-                                        <p className="text-sm text-red-500 mt-1">
-                                            {formData.formState.errors.email.message}
-                                        </p>
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>邮箱</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    type="email"
+                                                    placeholder="请输入您的邮箱"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
                                     )}
-                                </div>
-                                <div className="grid gap-3">
-                                    <Label htmlFor="password">密码</Label>
-                                    <Input
-                                        id="password"
-                                        type="password"
-                                        placeholder="请输入密码（至少6个字符）"
-                                        {...formData.register("password")}
-                                        required
-                                    />
-                                    {formData.formState.errors.password && (
-                                        <p className="text-sm text-red-500 mt-1">
-                                            {formData.formState.errors.password.message}
-                                        </p>
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="password"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>密码</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    type="password"
+                                                    placeholder="请输入密码（至少6个字符）"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
                                     )}
-                                </div>
-                                <div className="grid gap-3">
-                                    <Label htmlFor="confirmPassword">确认密码</Label>
-                                    <Input
-                                        id="confirmPassword"
-                                        type="password"
-                                        placeholder="请再次输入密码"
-                                        {...formData.register("confirmPassword")}
-                                        required
-                                    />
-                                    {formData.formState.errors.confirmPassword && (
-                                        <p className="text-sm text-red-500 mt-1">
-                                            {formData.formState.errors.confirmPassword.message}
-                                        </p>
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="confirmPassword"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>确认密码</FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    type="password"
+                                                    placeholder="请再次输入密码"
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
                                     )}
-                                </div>
+                                />
+
                                 <div className="flex flex-col gap-3">
-                                    <Button 
-                                        type="submit" 
+                                    <Button
+                                        type="submit"
                                         className="w-full"
                                         disabled={isLoading}
                                     >
                                         {isLoading ? "注册中..." : "注册"}
                                     </Button>
                                 </div>
-                            </div>
-                            <div className="mt-4 text-center text-sm">
-                                已有账号？{" "}
-                                <a href="/user/login" className="underline underline-offset-4">
-                                    登录
-                                </a>
-                            </div>
-                        </form>
+
+                                <div className="text-center text-sm text-muted-foreground">
+                                    已有账号？{" "}
+                                    <a href="/user/login" className="underline underline-offset-4">
+                                        登录
+                                    </a>
+                                </div>
+                            </form>
+                        </Form>
                     </CardContent>
                 </Card>
             </div>

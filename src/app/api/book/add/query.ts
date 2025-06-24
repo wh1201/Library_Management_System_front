@@ -1,4 +1,4 @@
-import { AddBookRequest, AddBookResponse } from "./type";
+import { AddBookRequest, AddBookResponse } from "@/types/book";
 
 export const addBookQueryOptions = {
     mutationKey: ['addBook'],

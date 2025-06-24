@@ -1,4 +1,4 @@
-import { LoginRequest, LoginResponse } from "./type";
+import { LoginRequest, LoginResponse } from "@/types/user";
 
 export const loginQueryOptions = {
     mutationKey: ['userInfo'],

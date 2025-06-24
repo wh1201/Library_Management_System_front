@@ -1,4 +1,4 @@
-import { RegisterRequest, RegisterResponse } from "./type";
+import { RegisterRequest, RegisterResponse } from "@/types/user";
 
 export const registerQueryOptions = {
     mutationKey: ['userInfo'],

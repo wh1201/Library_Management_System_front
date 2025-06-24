@@ -1,4 +1,4 @@
-import { UpdateBookRequest, UpdateBookResponse } from "./type";
+import { UpdateBookRequest, UpdateBookResponse } from "@/types/book";
 
 /**
  * React Query配置选项

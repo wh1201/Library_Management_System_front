@@ -27,13 +27,22 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  // 尝试刷新会话，但不抛出错误
-  try {
-    await supabase.auth.getUser()
-  } catch (error) {
-    // 如果获取用户失败，继续处理，让页面组件处理重定向
-    console.log('Auth session refresh failed, continuing...')
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  if (
+    !user &&
+    !request.nextUrl.pathname.startsWith('/login') &&
+    !request.nextUrl.pathname.startsWith('/auth')
+  ) {
+    // no user, potentially respond by redirecting the user to the login page
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    return NextResponse.redirect(url)
   }
 
+  
   return supabaseResponse
 }

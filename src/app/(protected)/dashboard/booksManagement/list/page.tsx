@@ -47,11 +47,13 @@ import { getBookListQueryOptions } from "@/app/api/book/getList/query"
 import { updateBookQueryOptions } from "@/app/api/book/update/query"
 import { deleteBookQueryOptions } from "@/app/api/book/delete/query"
 import { toast } from "sonner"
-import { GetBookListRequest } from "@/app/api/book/getList/type"
-import { BookItemSchema } from "@/app/api/book/getList/type"
-import { AddBookResponse } from "@/app/api/book/add/type"
-import { UpdateBookResponse } from "@/app/api/book/update/type"
-import { DeleteBookResponse } from "@/app/api/book/delete/type"
+import { 
+    GetBookListRequest, 
+    BookItemSchema, 
+    AddBookResponse, 
+    UpdateBookResponse, 
+    DeleteBookResponse 
+} from "@/types/book"
 
 
 type BookItem = typeof BookItemSchema._type

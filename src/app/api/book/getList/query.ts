@@ -1,4 +1,4 @@
-import { GetBookListRequest, GetBookListResponse } from "./type";
+import { GetBookListRequest, GetBookListResponse } from "@/types/book";
 
 /**
  * React Query配置选项

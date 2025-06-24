@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import { LoginRequestSchema, LoginResponseSchema } from "./type";
+import { LoginRequestSchema, LoginResponseSchema } from "@/types/user";
 import { redirect } from "next/navigation";
 
 
@@ -31,7 +31,7 @@ export async function POST(request: Request ) {
 
     // Supabase 登录
     const { data, error } = await supabase.auth.signInWithPassword(validatedRequestData.data)
-    // console.log("登录错误:", error);
+    console.log("登录错误:", error);
     if (error) {
         return new Response(JSON.stringify({ error: error.message }), { 
             status: 400,
