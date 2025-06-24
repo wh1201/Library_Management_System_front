@@ -23,19 +23,28 @@ export async function POST(request: Request ) {
     const validatedRequestData = LoginRequestSchema.safeParse(body)
 
     if (!validatedRequestData.success) {
-        return new Response(JSON.stringify(validatedRequestData.error), { status: 400 })
+        return new Response(JSON.stringify(validatedRequestData.error), { 
+            status: 400,
+            headers: { 'Content-Type': 'application/json' }
+        })
     }
 
     // Supabase 登录
     const { data, error } = await supabase.auth.signInWithPassword(validatedRequestData.data)
     // console.log("登录错误:", error);
     if (error) {
-        return new Response(error.message, { status: 400 })
+        return new Response(JSON.stringify({ error: error.message }), { 
+            status: 400,
+            headers: { 'Content-Type': 'application/json' }
+        })
     }
 
     const validatedUserData = LoginResponseSchema.parse(data.user)
 
-    return new Response(JSON.stringify(validatedUserData), { status: 200 })
+    return new Response(JSON.stringify(validatedUserData), { 
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+    })
 }
 
 

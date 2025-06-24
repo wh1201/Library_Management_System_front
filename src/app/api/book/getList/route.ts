@@ -60,7 +60,10 @@ export async function POST(request: Request) {
      const { data: { user }, error: authError } = await supabase.auth.getUser()
     
      if (authError || !user) {
-         return new Response(JSON.stringify({ error: "未授权访问" }), {status: 401})
+         return new Response(JSON.stringify({ error: "未授权访问" }), {
+             status: 401,
+             headers: { 'Content-Type': 'application/json' }
+         })
      }
 
     try {
@@ -72,7 +75,10 @@ export async function POST(request: Request) {
 
         if (queryError) {
             console.error("查询书籍列表错误:", queryError);
-            return new Response(JSON.stringify({ error: queryError.message }), {status: 400})
+            return new Response(JSON.stringify({ error: queryError.message }), {
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            })
         }
 
         // 计算分页信息
@@ -92,12 +98,18 @@ export async function POST(request: Request) {
         }
 
         const validatedResponseData = GetBookListResponseSchema.parse(responseData)
-        return new Response(JSON.stringify(validatedResponseData), {status: 200})
+        return new Response(JSON.stringify(validatedResponseData), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        })
         
     } catch (validationError) {
         console.error("处理请求错误:", validationError);
         return new Response(JSON.stringify({ 
             error: validationError instanceof Error ? validationError.message : "服务器内部错误" 
-        }), { status: 500 })
+        }), { 
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+        })
     }
 }

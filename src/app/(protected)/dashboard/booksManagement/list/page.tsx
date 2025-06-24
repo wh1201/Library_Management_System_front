@@ -124,7 +124,7 @@ export default function BookListPage() {
             refetchBooks()
         },
         onError: (error) => {
-            toast.error(`添加书籍失败: ${error.message}`)
+            toast.error(error.message)
         }
     })
     // 编辑书籍
@@ -157,7 +157,7 @@ export default function BookListPage() {
             refetchBooks()
         },
         onError: (error) => {
-            console.log('删除书籍失败', JSON.stringify(error))
+            console.log('删除书籍失败', error.message)
             toast.error(error.message)
         }
     })

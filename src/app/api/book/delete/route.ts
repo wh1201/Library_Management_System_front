@@ -16,14 +16,20 @@ export async function POST(request: Request) {
     const validatedRequestData = DeleteBookRequestSchema.safeParse(body)
 
     if (!validatedRequestData.success) {
-        return new Response(JSON.stringify({ error: validatedRequestData.error }), { status: 400 })
+        return new Response(JSON.stringify({ error: validatedRequestData.error }), { 
+            status: 400,
+            headers: { 'Content-Type': 'application/json' }
+        })
     }
 
     // 检查用户是否已认证
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     
     if (authError || !user) {
-        return new Response(JSON.stringify({ error: "未授权访问" }), { status: 401 })
+        return new Response(JSON.stringify({ error: "未授权访问" }), { 
+            status: 401,
+            headers: { 'Content-Type': 'application/json' }
+        })
     }
 
     try {
@@ -35,7 +41,10 @@ export async function POST(request: Request) {
             .single()
 
         if (checkError || !existingBook) {
-            return new Response(JSON.stringify({ error: "书籍不存在" }), { status: 404 })
+            return new Response(JSON.stringify({ error: "书籍不存在" }), { 
+                status: 404,
+                headers: { 'Content-Type': 'application/json' }
+            })
         }
 
         // 执行删除
@@ -46,13 +55,22 @@ export async function POST(request: Request) {
 
         if (deleteError) {
             console.error("删除书籍错误:", deleteError);
-            return new Response(JSON.stringify({ error: deleteError.message }), { status: 400 })
+            return new Response(JSON.stringify({ error: deleteError.message }), { 
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            })
         }
-        return new Response(JSON.stringify({ message: "书籍删除成功" }), { status: 200 })
+        return new Response(JSON.stringify({ message: "书籍删除成功" }), { 
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        })
         
     } catch (validationError) {
         console.error("处理删除请求错误:", validationError);
-        return new Response(JSON.stringify({ error: validationError instanceof Error ? validationError.message : "服务器内部错误" }), { status: 500 })
+        return new Response(JSON.stringify({ error: validationError instanceof Error ? validationError.message : "服务器内部错误" }), { 
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+        })
     }
 }
 

@@ -15,14 +15,20 @@ export async function POST(request: Request) {
     const validatedRequestData = AddBookRequestSchema.safeParse(body)
 
     if (!validatedRequestData.success) {
-        return new Response(JSON.stringify({ error: validatedRequestData.error }), { status: 400 })
+        return new Response(JSON.stringify({ error: validatedRequestData.error }), { 
+            status: 400,
+            headers: { 'Content-Type': 'application/json' }
+        })
     }
 
     // 检查用户是否已认证
     const { data: { user }, error: authError } = await supabase.auth.getUser()
     
     if (authError || !user) {
-        return new Response(JSON.stringify({ error: "未授权访问" }), { status: 401 })
+        return new Response(JSON.stringify({ error: "未授权访问" }), { 
+            status: 401,
+            headers: { 'Content-Type': 'application/json' }
+        })
     }
     // 检查书籍是否已存在 如果ISBN存在，则提示该书籍已存在
     if (validatedRequestData.data.isbn) {
@@ -32,7 +38,10 @@ export async function POST(request: Request) {
             .eq('isbn', validatedRequestData.data.isbn)
             .maybeSingle()
         if (existingBook) {
-            return new Response(JSON.stringify({ error: "该书籍已存在" }), { status: 400 })
+            return new Response(JSON.stringify({ message: "该书籍已存在" }), { 
+                status: 400,
+                headers: { 'Content-Type': 'application/json' }
+            })
         }
     }
 
@@ -53,13 +62,22 @@ export async function POST(request: Request) {
 
     if (error) {
         console.error("添加书籍错误:", error);
-        return new Response(JSON.stringify({ error: error.message }), { status: 400 })
+        return new Response(JSON.stringify({ error: error.message }), { 
+            status: 400,
+            headers: { 'Content-Type': 'application/json' }
+        })
     }
 
     try {
         const validatedResponseData = AddBookResponseSchema.parse({ message: "书籍添加成功" })
-        return new Response(JSON.stringify(validatedResponseData), { status: 200 })
+        return new Response(JSON.stringify(validatedResponseData), { 
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        })
     } catch (validationError) {
-        return new Response(JSON.stringify({ error: validationError instanceof Error ? validationError.message : "服务器内部错误" }), { status: 500 })
+        return new Response(JSON.stringify({ error: validationError instanceof Error ? validationError.message : "服务器内部错误" }), { 
+            status: 500,
+            headers: { 'Content-Type': 'application/json' }
+        })
     }
 }

@@ -15,7 +15,7 @@ export type RegisterRequest = z.infer<typeof RegisterRequestSchema>
 // 注册响应
 export const RegisterResponseSchema = z.object({
     id: z.string(),
-    name: z.string(),
+    // name: z.string(),
     email: z.string().email(),
     created_at: z.string(),
     last_login_at: z.string().optional(),

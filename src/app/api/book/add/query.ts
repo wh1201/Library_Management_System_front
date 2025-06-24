@@ -12,10 +12,8 @@ export const addBookQueryOptions = {
           }),
         });
         if (!res.ok) {
-          const msg = await res.text();
-          console.error('API Error Status:', res.status);
-          console.error('API Error Message:', msg);
-          throw new Error(`API Error (${res.status}): ${msg}`);
+          const errorData = await res.json().catch(() => ({}));
+          throw new Error(errorData.error || errorData.message || `HTTP error! status: ${res.status}`);
         }
         return res.json() as Promise<AddBookResponse>;
       }
