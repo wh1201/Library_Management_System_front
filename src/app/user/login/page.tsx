@@ -43,6 +43,12 @@ export default function LoginPage() {
     ...loginQueryOptions,
     onSuccess: (data) => {
       console.log("登录成功:", data);
+      
+      // 将用户邮箱存储到localStorage
+      if (data.email) {
+        localStorage.setItem('userEmail', data.email);
+      }
+      
       toast.success("登录成功")
       router.push('/dashboard')
     },

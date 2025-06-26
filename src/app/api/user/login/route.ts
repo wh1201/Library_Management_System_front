@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { LoginRequestSchema, LoginResponseSchema } from "@/types/user";
 import { redirect } from "next/navigation";
 

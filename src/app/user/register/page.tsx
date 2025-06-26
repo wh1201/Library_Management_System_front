@@ -45,6 +45,12 @@ export default function RegisterPage() {
         ...registerQueryOptions,
         onSuccess: (data) => {
             console.log("注册成功:", data);
+            
+            // 将用户邮箱存储到localStorage
+            if (data.email) {
+                localStorage.setItem('userEmail', data.email);
+            }
+            
             toast.success("注册成功")
             router.push('/dashboard')
         },
