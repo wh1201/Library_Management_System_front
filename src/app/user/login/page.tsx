@@ -22,7 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { toast } from "sonner"
-import { LoginRequestSchema, LoginRequest } from "@/types/user"
+import { LoginRequestSchema, LoginRequest } from "@/app/api/user/login/type"
 import { useMutation } from "@tanstack/react-query"
 import { loginQueryOptions } from "@/app/api/user/login/query"
 

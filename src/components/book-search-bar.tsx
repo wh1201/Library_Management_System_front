@@ -26,7 +26,7 @@ export function BookSearchBar({
     }
 
     return (
-        <div className="flex gap-4">
+        <div className="flex gap-4 flex-wrap">
             <Input
                 placeholder="按标题搜索..."
                 value={titleSearch}

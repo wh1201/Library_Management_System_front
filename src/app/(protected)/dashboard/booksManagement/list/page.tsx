@@ -226,7 +226,7 @@ export default function BookListPage() {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex justify-between items-center gap-4">
+            <div className="flex flex-wrap justify-between items-center gap-4">
                 <BookSearchBar
                     titleSearch={titleSearch}
                     authorSearch={authorSearch}

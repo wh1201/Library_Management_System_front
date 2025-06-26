@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import { RegisterRequestSchema, RegisterResponseSchema } from "@/types/user";
+import { RegisterRequestSchema, RegisterResponseSchema } from "./type";
 import { NextResponse } from "next/server";
 
 /**
