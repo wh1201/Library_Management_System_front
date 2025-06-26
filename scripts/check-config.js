@@ -79,8 +79,8 @@ function checkFileStructure() {
     
     const requiredFiles = [
         'src/config/supabase.ts',
-        'src/utils/supabase/client.ts',
-        'src/utils/supabase/server.ts',
+        'src/lib/supabase/client.ts',
+        'src/lib/supabase/server.ts',
         'src/app/api/user/register/route.ts',
         'src/app/user/register/page.tsx'
     ];
